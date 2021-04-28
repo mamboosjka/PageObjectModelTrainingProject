@@ -1,6 +1,8 @@
 import math
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
+from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException, TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from .locators import HeaderLocators
 
 class BasePage():
@@ -58,11 +60,27 @@ class BasePage():
         for message in messages:
             if self.get_text_of_status_message(message) == expected_text:
                 return True
-        #print(f"Current message text is: '{self.get_text_of_status_message(message)}'. Expected is {expected_text}")
         return False
 
     def should_be_status_msg_with(self, text: str):
         assert self.find_status_msg_with(text), f"Cant find message with text: '{text}'."
+
+    def is_not_element_present(self, how, what, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return True
+        return False
+
+    def is_disappeared(self, how, what, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException).until_not(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return False
+        return True
+
+    def should_not_be_success_message(self):
+        assert not self.is_element_present(*HeaderLocators.SUCCESS_STATUS_MSG), "Success message is presented but should NOT."
 
 
 

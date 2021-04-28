@@ -5,6 +5,7 @@ class HeaderLocators():
     BASKET_TOTAL_INFO = (By.CSS_SELECTOR, "div.basket-mini.pull-right")
     VIEW_BASKET_BTN = (By.CSS_SELECTOR, "div.basket-mini.pull-right>span>a.btn")
     STATUS_MSGS = (By.CSS_SELECTOR, "div#messages>div.alert")
+    SUCCESS_STATUS_MSG = (By.CSS_SELECTOR, "div#messages>div.alert-success")
     STATUS_MSG_TEXT = (By.CSS_SELECTOR, "div.alertinner")
     STATUS_INFO_MSG_TEXT = (By.CSS_SELECTOR, "div.alertinner>p:nth-child(1)")
 
